@@ -1,5 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
+import TaskItem from './components/TaskItem'; 
+import TaskList from './components/TaskList'; 
+import CurrentTask from './components/CurrentTask'; 
 
 function App() {
   return (
