@@ -1,8 +1,12 @@
+import TaskAdd from './TaskAdd'
+
 const TaskList = () => {
-    return 
+    return (
     <>
+    <TaskAdd />
     <h2>TaskList</h2>
-    </>
+
+    </>)
 }
 
 export default TaskList; 

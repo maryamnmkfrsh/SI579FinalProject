@@ -3,34 +3,34 @@ import './App.css';
 import Header from './components/Header';
 import CurrentTask from './components/CurrentTask'; 
 import TaskList from './components/TaskList'; 
-import RightSideBar from './components/RightSideBar'; 
-function App() {
-<<<<<<< HEAD
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Mani is getting ready to tackle all your tasks!
-        </p>
-      </header>
+import RightSideBar from './components/RightSideBar';
+import TaskItem from './components/TaskItem'; 
+import { useEffect, useState } from 'react';
 
-    </div>
-  );
-=======
+function App() {
+  const [tasks, setTasks] = useState([]);
+
+  function addTask(item) {
+    setTasks(previousValue => {
+      [...previousValue, {name: item}]
+    })
+  }
   return <>
       <Header />
       <main className="main">
         <div className="grid">
           <div>
             <CurrentTask />
-            <TaskList />
+            <TaskList onAdd={{addTask}}/>
+            {tasks.map (task => 
+              <TaskItem {...task}/>
+              )}
+            <TaskItem/>
           </div>
           <RightSideBar className="sidebar" />
         </div>
       </main> 
   </>;
->>>>>>> 68176e4ca9381ce92707dacdfe80fb475a27cb3b
 }
 
 export default App;
