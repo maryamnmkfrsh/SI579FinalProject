@@ -15,6 +15,11 @@ function App() {
       [...previousValue, {name: item}]
     })
   }
+
+  // useEffect(() => {
+
+  // }); 
+
   return <>
       <Header />
       <main className="main">
