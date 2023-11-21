@@ -9,7 +9,7 @@ const TaskAdd = ({TaskAdd}) => {
 
     function submitHandler(e) {
         e.preventDefault(); 
-        onAdd(input)
+        // onAdd(input)
         setInput("")
     }
 
