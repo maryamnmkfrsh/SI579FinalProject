@@ -1,8 +1,9 @@
-import { Row, Col, ProgressBar  } from 'react-bootstrap';
+import { Row, Col, Container, ProgressBar  } from 'react-bootstrap';
 
 const CurrentTask = () => {
     return (
-        <div className="my-2" style={{backgroundColor: 'white'}}>
+        // <div className="my-2 py-2" style={{boxSizing: 'border-box', backgroundColor: 'white'}}>
+        <Container className="p-2 m-2">
             <Row>
                 <Col className="d-flex flex-row justify-content-between">
                     {/* TODO: make it dynamic */}
@@ -10,12 +11,12 @@ const CurrentTask = () => {
                     <h2>30:00</h2>
                 </Col>
             </Row>
-            <Row>
-                <ProgressBar now={60} />;
+            <Row className='p-0'>
+                <ProgressBar className="p-0 w-75 mx-auto" now={60} />
             </Row>
-
+        </Container>
             
-        </div>
+        // </div>
     );
 }
 

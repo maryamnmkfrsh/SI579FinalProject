@@ -39,10 +39,12 @@ function App() {
 
   return <>
     <div style={{height: `100vh`}}>
-        <Container fluid className="h-100">
+        <Container fluid className="h-100 w-100 p-0">
           <Header />
-          <Row className="h-75">
-            <Col style={{backgroundColor: '#cccccc'}}>
+          <Row className="h-75 m-2">
+            <Col className="p-0 rounded" style={{ 
+                backgroundColor: '#cccccc'
+              }}>
               <CurrentTask />
               <TaskList onAdd={{addTask}}/>
               {tasks.map (task => 
@@ -50,7 +52,7 @@ function App() {
                 )}
               <TaskItem/>
             </Col>
-            <Col>
+            <Col className='ms-2 p-0'>
               <RightSideBar className="sidebar" />
             </Col>
           </Row>
