@@ -1,25 +1,19 @@
 import { getHeaderDate } from '../util/dateUtil';
-import { Container, Row, Col, Button, Image } from 'react-bootstrap';
+import { Button } from '@mui/material';
+import { Check } from '@mui/icons-material';
+
 
 const Header = () => {
     return (
-        <header className='h-25'>
-            <Container>
-                <Row>
-                    <Col className="d-flex justify-content-start">
-                        <span>{getHeaderDate()}</span>
-                    </Col>
-                    <Col className="d-flex justify-content-center">
-                        <div className='mani-placeholder'>
-                        Mascot comes here
-                        </div>
-                    </Col>
-                    <Col className="d-flex justify-content-end">
-                        <Button variant="secondary">Archive</Button>
-                    </Col>
-                </Row>
-            </Container>
-        </header>
+        <div className='p-5 h-100 d-flex justify-content-between align-items-center'>
+            <span className='today'>{getHeaderDate()}</span>
+            <div className='mani-placeholder'>
+                Mascot comes here
+            </div>
+            <Button variant="contained" size="large" startIcon={<Check />}>
+                Archive
+            </Button>
+        </div>
       );
         {/* <span>{getHeaderDate()}</span>
         <div className='mani-placeholder'>Mani lives here</div>
