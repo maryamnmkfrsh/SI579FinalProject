@@ -1,5 +1,5 @@
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 import Header from './components/Header';
 import CurrentTask from './components/CurrentTask'; 
 import TaskList from './components/TaskList'; 
@@ -38,25 +38,23 @@ function App() {
   // }); 
 
   return <>
-    <div style={{height: `100vh`}}>
-        <Container fluid className="h-100 w-100 p-0">
-          <Header />
-          <Row className="h-75 m-2">
-            <Col className="p-0 rounded" style={{ 
-                backgroundColor: '#cccccc'
-              }}>
-              <CurrentTask />
-              <TaskList onAdd={{addTask}}/>
-              {tasks.map (task => 
-                <TaskItem {...task}/>
-                )}
-              <TaskItem/>
-            </Col>
-            <Col className='ms-2 p-0'>
-              <RightSideBar className="sidebar" />
-            </Col>
-          </Row>
-        </Container>
+    <div style={{height: '100vh'}}>
+      <header>
+        <Header />
+      </header>
+      <main>
+        <div>
+          <CurrentTask />
+          <TaskList className="my-2 task-list" onAdd={{addTask}}/>
+          {tasks.map (task => 
+            <TaskItem {...task}/>
+            )}
+          <TaskItem/>
+        </div>
+        <div className='ms-2 p-0'>
+          <RightSideBar className="sidebar" />
+        </div>
+      </main>
     </div>
   </>;
 }

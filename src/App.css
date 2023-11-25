@@ -1,29 +1,63 @@
+html {
+  --header-bg-color: rgb(217, 217, 217);
+  --border-color: #b6b6b6;
+  --item-bg-color: #ffffff;
+  --body-bg-color: #ececec;
+}
+
 body {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Rubik', Arial, sans-serif;
+  background-color: var(--body-bg-color);
 }
 
 header {
-  background-color: #282c34;
-  padding: 0 2%;
-  height: 60px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: space-between;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 20%;
+  background-color: var(--header-bg-color);
 }
 
-.main {
-  height: calc(100vh - 60px);
+.today {
+  font-size: 2rem;
+  font-weight: bold;
 }
 
-.grid {
+main {
+  height: 80%;
   display: grid;
-  grid-template-columns: 4fr 1fr;
+  grid-template-columns: 60% 40%;
 }
 
-.sidebar {
-  background-color: lightblue;
+main > div {
+  /* border: 1px solid black; */
+  margin: 50px;
+}
+
+.current-task {
+  background-color: var(--item-bg-color);
+  /* height: 150px; */
+  border-radius: 0.75rem;
+  padding: 10px 20px 20px;
+  border: 1px solid var(--border-color);
+}
+
+.current-task-title {
+  font-size: 1.75rem;
+  font-weight: 400;
+}
+
+.current-task-time {
+  font-size: 1.75rem;
+}
+
+.task-list {
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  padding: 10px 20px 20px;
+  background-color: var(--item-bg-color);
+}
+
+.spotify-player {
+  border-radius: 0.75rem;
+  height: 354px;
+  border: 1px solid var(--border-color);
+  /* overflow: hidden; */
 }
