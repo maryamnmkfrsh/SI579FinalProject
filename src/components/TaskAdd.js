@@ -1,33 +1,31 @@
-// component used to add new task to task list 
+// component used to add new task to task list
 
-//still working on this
+// still working on this
 
-import { useState } from "react";
+import { useState } from 'react';
 
-const TaskAdd = ({TaskAdd}) => {
-    const [input, setInput]=useState(''); 
+function TaskAdd() {
+  const [input, setInput] = useState('');
 
-    function submitHandler(e) {
-        e.preventDefault(); 
-        // onAdd(input)
-        setInput("")
-    }
+  function submitHandler(e) {
+    e.preventDefault();
+    // onAdd(input)
+    setInput('');
+  }
 
-    return (
-        <>
-        <form onSubmit={(e) => submitHandler}>
-            <input
-            type="text"
-            placeholder="Add a new task..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            />
-            
-            <button> + </button>
-            
-        </form>
-        </>
-    )
+  return (
+    <form onSubmit={() => submitHandler}>
+      <input
+        type="text"
+        placeholder="Add a new task..."
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+      />
+
+      <button type="button"> + </button>
+
+    </form>
+  );
 }
 
-export default TaskAdd; 
+export default TaskAdd;
