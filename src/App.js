@@ -43,8 +43,9 @@ function App() {
     if (!isSignedIn) {
       return (
           <div style={{height: '100vh'}} className='d-flex align-items-center justify-content-center'>
-            <div className='signin-box d-flex align-items-center flex-column justify-content-center'>
-                <p>Please sign-in to use <strong>Momentum Mate</strong></p>
+            <div className='w-25 signin-box d-flex align-items-center flex-column justify-content-center'>
+                <img alt='mani' src='mani-login.png'></img>
+                <p className='mt-2 p-2'>Please sign-in with your University of Michigan Google account to use <strong>Momentum Mate</strong></p>
                 <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
             </div>
           </div>
