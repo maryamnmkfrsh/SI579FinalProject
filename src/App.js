@@ -1,62 +1,58 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import Header from './components/Header';
-import CurrentTask from './components/CurrentTask'; 
-import TaskList from './components/TaskList'; 
-import RightSideBar from './components/RightSideBar';
-import TaskItem from './components/TaskItem'; 
-import { useEffect, useState } from 'react';
+import MomentumMate from './MomentumMate';
+import React, { useEffect, useState } from 'react';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
-import { Container, Row, Col, Button, Image } from 'react-bootstrap';
+// Configure firebase
+const config = {
+  apiKey: "AIzaSyDQ4CmqdCIUmyIQ43XERngK881wZTxK2SM",
+  authDomain: "momentum-mate.firebaseapp.com",
+  databaseURL: "https://momentum-mate-default-rtdb.firebaseio.com",
+  projectId: "momentum-mate",
+  storageBucket: "momentum-mate.appspot.com",
+  messagingSenderId: "1066402884490",
+  appId: "1:1066402884490:web:08d4fee6cce28894e47673",
+  measurementId: "G-X05K1FCMMQ"
+};
+firebase.initializeApp(config);
 
-const getHeaderDate = () => {
-  const today = new Date();
-  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  const shortMonth = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
-  return (
-      <span>
-         Today is {days[today.getDay()]}, {shortMonth[today.getMonth()]} {today.getDate()}
-      </span>
-  )
-}
+// Configure FirebaseUI
+const uiConfig = {
+  signInFlow: 'popup',
+  signInOptions: [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID
+  ],
+  callbacks: {
+      signInSuccessWithAuthResult: () => false,
+  },
+};
+
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+    useEffect(() => {
+        const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
+            setIsSignedIn(!!user);
+        });
+        return () => unregisterAuthObserver();
+    }, []);
 
-  const addTask = (item) => {
-    setTasks(previousValue => {
-      return [...previousValue, {name: item}]
-    })
-  }
+    if (!isSignedIn) {
+      return (
+          <div style={{height: '100vh'}} className='d-flex align-items-center justify-content-center'>
+            <div className='signin-box d-flex align-items-center flex-column justify-content-center'>
+                <p>Please sign-in to use <strong>Momentum Mate</strong></p>
+                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+            </div>
+          </div>
+      );
+    } else {
+      return <MomentumMate user={firebase.auth().currentUser}/>
+    }
 
-  // useEffect(() => {
-
-  // }); 
-
-  return <>
-    <div style={{height: '100vh'}}>
-      <header>
-        <Header />
-      </header>
-      <main>
-        <div>
-          <CurrentTask />
-          <TaskList className="my-2 task-list" onAdd={{addTask}}/>
-          {tasks.map (task => 
-            <TaskItem {...task}/>
-            )}
-          <TaskItem/>
-        </div>
-        <div className='ms-2 p-0'>
-          <RightSideBar className="sidebar" />
-        </div>
-      </main>
-    </div>
-  </>;
 }
 
 export default App;

@@ -15,6 +15,18 @@ header {
   background-color: var(--header-bg-color);
 }
 
+.firebaseui-idp-button {
+  border-radius: 100px !important;
+}
+
+.signin-box {
+  padding: 30px;
+  border: 2px solid #bdbdbd;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 .today {
   font-size: 2rem;
   font-weight: bold;
