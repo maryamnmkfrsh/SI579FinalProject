@@ -1,97 +1,70 @@
-import { TextField, Button } from '@mui/material';
-import { useState } from 'react';
-import Tasks from '../util/defaultTasks';
-import { List, ListItem, ListItemButton, ListItemIcon, Checkbox, ListItemText} from '@mui/material';
+import TaskAdd from "./TaskAdd";
+import TaskItem from "./TaskItem";
+import { useState, useEffect } from "react";
+import { v4 as uuidv4 } from 'uuid'; 
+import { ListGroup} from 'react-bootstrap';
 
-const TaskList = ({ className }) => {
+const TaskList = ({ startTask}) => {
+    const[tasks, setTasks] = useState(() => {
+        const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        return storedTasks;
+      });
+    const [currentTask, setCurrentTask] = useState(null);
+    const [taskTime, setTaskTime] = useState('');
 
-    const [taskName, setTaskName] = useState('');
-    const [hours, setHours] = useState('');
-    const [minutes, setMinutes] = useState('');
-    const [checked, setChecked] = useState([0]);
-    const [tasks, setTasks] = useState(Tasks);
 
-    const handleToggle = (index) => () => {
-        const currentIndex = checked.indexOf(index);
-        const newChecked = [...checked];
-    
-        if (currentIndex === -1) {
-          newChecked.push(index);
-        } else {
-          newChecked.splice(currentIndex, 1);
-        }
-    
-        setChecked(newChecked);
-    };
+    useEffect(() => {
+        const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        setTasks((prevTasks) => {
+            return JSON.stringify(storedTasks) !== JSON.stringify(prevTasks) ? storedTasks : prevTasks;
+        });
+    }, []);
 
-    const addTask = () => {
-        const taskObject = {
-            title: taskName,
-            hours: hours,
-            minutes: minutes
-        };
-        setTasks((prev) => {
-            const newTasks = [...prev];
-            newTasks.push(taskObject);
-            return newTasks;
-        })
+    useEffect(() => {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+      }, [tasks]);
+
+    const addTask = (task) => {
+        const newTask = { id: uuidv4(), ...task, completed: false, isEditing: false };
+        const newTasks = [...tasks, newTask];
+        setTasks(newTasks);
+    }
+
+    const handleToggleComplete = (id) => {
+        const updatedTasks = tasks.map(task =>
+            task.id === id ? { ...task, completed: !task.completed } : task
+        );
+        setTasks(updatedTasks)
+    }
+
+    const handleDeleteTask = (id) => {
+        const updatedTasks = tasks.filter(task => task.id !== id);
+        setTasks(updatedTasks);
     }
 
     return (
-    <div className={className}>
+        <>
+        <div className="task-list">
         <h2 className='mb-3'>Todo List</h2>
-        <div className='d-flex gap-3'>
-            <TextField 
-                fullWidth 
-                value={taskName} 
-                onChange={(e) => setTaskName(e.target.value)}
-                label="Add a new task" 
-                variant="outlined" />
-            <TextField
-                label="Hours"
-                value={hours}
-                onChange={(e) => setHours(e.target.value)}
-                variant="outlined"
+            <TaskAdd  addTask={addTask}/>
+            <ListGroup>
+                {tasks.map((task, index) => (
+                <TaskItem 
+                task={task} 
+                key={index}
+                toggleComplete={handleToggleComplete}
+                deleteTask={handleDeleteTask} 
+                startTask={(taskItem) => {
+                    setCurrentTask(taskItem.task);
+                    setTaskTime(taskItem.time);  
+                    startTask(taskItem);
+                }}            
                 />
-            <TextField
-                label="Minutes"
-                value={minutes}
-                onChange={(e) => setMinutes(e.target.value)}
-                variant="outlined"
-                />
-            <Button
-                className='flex-grow-1'
-                onClick={addTask}
-                variant="contained">
-                Add
-            </Button>
-            </div>
-            <List>
-            {tasks.map((task, index) => {
-                const labelId = `checkbox-list-label-${index}`;
-                return <ListItem
-                    key={index}
-                    disablePadding>
-                    <ListItemButton role={undefined} onClick={handleToggle(index)} dense>
-                        <ListItemIcon>
-                            <Checkbox
-                                edge="start"
-                                checked={checked.indexOf(index) !== -1}
-                                tabIndex={-1}
-                                disableRipple
-                                inputProps={{ 'aria-labelledby': labelId }}
-                            />
-                        </ListItemIcon>
-                        <ListItemText 
-                            id={labelId} 
-                            primary={task.title}
-                            secondary={`${task.hours}:${task.minutes}`} />
-                    </ListItemButton>
-                </ListItem>
-            })}
-            </List>
-    </div>
-    );
+            ))}
+            </ListGroup>
+           </div>
+        </>
+    )
 }
 
 export default TaskList; 

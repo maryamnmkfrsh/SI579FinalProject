@@ -1,28 +1,54 @@
 import { ProgressBar  } from 'react-bootstrap';
 import { Fab } from '@mui/material';
-import { PlayArrow } from '@mui/icons-material';
+import { PlayArrow, Pause, Stop } from '@mui/icons-material';
+import { useState, useEffect } from "react";
 
-const CurrentTask = () => {
+const CurrentTask = ({ selectedTask, onStart, onPause, onStop, currentTask }) => {
+    const [isPlaying, setIsPlaying] = useState(false);
+
+    useEffect(() => {
+      console.log('Current Task:', currentTask);
+  }, [currentTask]);
+
+    const handleStart = () => {
+        setIsPlaying(true);
+        onStart(selectedTask);
+      };
+    
+      const handlePause = () => {
+        setIsPlaying(false);
+        onPause();
+      };
+    
+      const handleStop = () => {
+        setIsPlaying(false);
+        onStop();
+      };
+      
+
     return (
         // <div className="my-2 py-2" style={{boxSizing: 'border-box', backgroundColor: 'white'}}>
         <div className="current-task">
             <div className="pb-2 d-flex flex-row justify-content-between">
                 {/* TODO: make it dynamic */}
                 <span className="current-task-title">Current Task</span>
-                <span className='current-task-time'>30:00</span>
+                <span className='current-task-time'>{selectedTask ? selectedTask.time : '00:00'}</span>
             </div>
             <div className='d-flex flex-row justify-content-between align-items-center'>
-                <Fab aria-label="play" color="primary">
-                    <PlayArrow />
-                    {/* {success ? <CheckIcon /> : <SaveIcon />} */}
-                </Fab>
-                <div className='flex-grow-1 ps-3'>
+            <div className='flex-grow-1 ps-3'>
                     <ProgressBar now={60} />
                 </div>
+                <Fab aria-label={isPlaying ? "pause" : "play"} 
+                color={isPlaying ? "secondary" : "primary"} 
+                onClick={isPlaying ? handlePause : handleStart}>
+                {isPlaying ? <Pause /> : <PlayArrow />}
+                </Fab>
+                <Fab aria-label="stop" onClick={handleStop}>
+                <Stop />
+                </Fab>
+                
             </div>
         </div>
-            
-        // </div>
     );
 }
 

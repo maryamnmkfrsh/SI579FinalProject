@@ -1,31 +1,52 @@
-//component for task items inside the task list
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { List, ListItem, ListItemButton, ListItemIcon, Checkbox, ListItemText} from '@mui/material';
+import ReactConfetti from 'react-confetti';
+import { useState } from 'react';
 
-import { useState } from "react";
+const TaskItem = ({task, toggleComplete, deleteTask, startTask}) => {
+    const [showConfetti, setShowConfetti] = useState(false);
 
-const TaskItem = ({name}) => {
-    const [input, setInput] = useState("");
-    // const [list, setList] = useState([]);
-    const [time, setTime] = useState("")
+    const handleToggleComplete = () => {
+        toggleComplete(task.id);
+    
+        if (!task.completed) {
+            setShowConfetti(true);
+            setTimeout(() => {
+              setShowConfetti(false);
+            }, 5000);
+          }
+        };
+    
 
-
-    return (
-        <>
-        <div>
-        <input type={"checkbox"} />
-        <input
-          type='text'
-          value = {input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-       
-        <input
-          type='time'
-          value = {time}
-          onChange={(e) => setTime(e.target.value)}
-        />
-        </div>
-        </>
-    ) 
+  return (
+    <List>
+        <ListItem disablePadding>
+        {showConfetti && <ReactConfetti />}
+            <ListItemButton
+                role={undefined}
+                onClick={() => handleToggleComplete(task.id)}
+                dense
+                style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+                <ListItemIcon>
+                    <Checkbox
+                        edge="start"
+                        checked={task.completed}
+                        tabIndex={-1}
+                        disableRipple />
+                </ListItemIcon>
+                <ListItemText
+                    primary={task.task}
+                    secondary={task.time} />
+            </ListItemButton>
+            <ListItemIcon>
+                <FontAwesomeIcon icon={faTrash} onClick={() => deleteTask(task.id)} />
+            </ListItemIcon>
+            <button onClick={() => startTask(task)}>Start Task</button>
+        </ListItem>
+    </List>
+);
 }
 
-export default TaskItem; 
+export default TaskItem;
+
