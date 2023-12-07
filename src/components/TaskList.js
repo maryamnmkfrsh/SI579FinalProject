@@ -1,7 +1,8 @@
 import { TextField, Button } from '@mui/material';
 import { useState } from 'react';
 import Tasks from '../util/defaultTasks';
-import { List, ListItem, ListItemButton, ListItemIcon, Checkbox, ListItemText} from '@mui/material';
+import { v4 as uuidv4 } from 'uuid';    
+import { List, ListItem, ListItemButton, ListItemIcon, Checkbox, ListItemText, ListItemSecondaryAction, IconButton} from '@mui/material';
 
 const TaskList = ({ className }) => {
 
@@ -9,7 +10,21 @@ const TaskList = ({ className }) => {
     const [hours, setHours] = useState('');
     const [minutes, setMinutes] = useState('');
     const [checked, setChecked] = useState([0]);
+
+    //State for the data
+    const [currentTaskId, setCurrentTaskId] = useState(null);
     const [tasks, setTasks] = useState(Tasks);
+
+    // State to keep track of the hover
+    const [hoverIndex, setHoverIndex] = useState(null);
+    const handleMouseEnter = (index) => {
+        setHoverIndex(index);
+    };
+    const handleMouseLeave = () => {
+        setHoverIndex(null);
+    };
+
+
 
     const handleToggle = (index) => () => {
         const currentIndex = checked.indexOf(index);
@@ -30,6 +45,7 @@ const TaskList = ({ className }) => {
             hours: hours,
             minutes: minutes
         };
+        console.log(tasks);
         setTasks((prev) => {
             const newTasks = [...prev];
             newTasks.push(taskObject);
@@ -69,23 +85,33 @@ const TaskList = ({ className }) => {
             <List>
             {tasks.map((task, index) => {
                 const labelId = `checkbox-list-label-${index}`;
+                const isHovered = hoverIndex === index;
+
+                console.log(task);
                 return <ListItem
                     key={index}
-                    disablePadding>
-                    <ListItemButton role={undefined} onClick={handleToggle(index)} dense>
-                        <ListItemIcon>
-                            <Checkbox
-                                edge="start"
-                                checked={checked.indexOf(index) !== -1}
-                                tabIndex={-1}
-                                disableRipple
-                                inputProps={{ 'aria-labelledby': labelId }}
-                            />
-                        </ListItemIcon>
+                    disablePadding
+                    onMouseEnter={() => handleMouseEnter(index)}
+                    onMouseLeave={handleMouseLeave}
+                    secondaryAction={
+                        <Checkbox
+                            edge="start"
+                            checked={checked.indexOf(index) !== -1}
+                            tabIndex={-1}
+                            disableRipple
+                            inputProps={{ 'aria-labelledby': labelId }}
+                            onChange={handleToggle(index)}
+                        />
+                    }>
+                    <ListItemButton role={undefined} dense>
                         <ListItemText 
                             id={labelId} 
-                            primary={task.title}
-                            secondary={`${task.hours}:${task.minutes}`} />
+                            primary={task.taskName}
+                            secondary={`${task.time.minutes}:${task.time.seconds}`} />
+                        {isHovered && (
+                                <a className='me-5'>Set as Active</a>
+                        )}
+                        
                     </ListItemButton>
                 </ListItem>
             })}
