@@ -2,9 +2,9 @@ import { ProgressBar  } from 'react-bootstrap';
 import { Fab } from '@mui/material';
 import { PlayArrow } from '@mui/icons-material';
 
-const CurrentTask = () => {
+const CurrentTask = ({taskId}) => {
+    if (taskId) {
     return (
-        // <div className="my-2 py-2" style={{boxSizing: 'border-box', backgroundColor: 'white'}}>
         <div className="current-task">
             <div className="pb-2 d-flex flex-row justify-content-between">
                 {/* TODO: make it dynamic */}
@@ -21,9 +21,14 @@ const CurrentTask = () => {
                 </div>
             </div>
         </div>
-            
-        // </div>
     );
+    } else {
+        return (
+            <div className="current-task d-flex align-items-center justify-content-center ">
+                <p>Please click on a task to start it</p>
+            </div>
+        )
+    }
 }
 
 export default CurrentTask; 

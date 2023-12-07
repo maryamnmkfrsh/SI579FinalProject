@@ -44,7 +44,7 @@ const TestFirebaseModule = ({ user }) => {
         });
     }   
 
-    const saveToDb = () => {
+    const saveToDb = () => { 
         const tasksRef = ref(db, `tasks/${userId}`);
         push(tasksRef, taskList)
             .then(() => {

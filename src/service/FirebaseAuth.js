@@ -42,7 +42,7 @@ function FirebaseAuth({ firebaseAuth}) {
       unregisterAuthObserver();
       firebaseUiWidget.reset();
     };
-  }, [uiConfig, firebaseAuth]);
+  }, [firebaseAuth]);
 
   return (<div id={ELEMENT_ID} />);
 }
